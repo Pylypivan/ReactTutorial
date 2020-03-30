@@ -16,9 +16,9 @@ import './app.css';
 const App = ()=> {
    
      const data = [
-            {label : 'go learn react', imortant:true},
-            {label : 'that is so good', imortant:false},
-            {label : 'good work', imortant:false}
+            {label : 'go learn react', imortant:false, id: 'qwe'},
+            {label : 'that is so good', imortant:false, id: 'qww'},
+            {label : 'good work', imortant:false, id: 'qrt'}
 
      ];
    
