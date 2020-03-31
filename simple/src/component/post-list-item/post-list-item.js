@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
 
-import './post-list-item.css';
+import './post-list-item.sass';
 
 
 export default class PostListItem extends Component {
         constructor(props) {
             super(props);
             this.state = {
-                important:false
+                important:false,
+                like:false
             };
 
             this.onImportant = this.onImportant.bind(this);
+            this.onLike = this.onLike.bind(this);
+
         }
       
 
@@ -23,71 +26,43 @@ export default class PostListItem extends Component {
                 }
             })
         }
+
+
+        onLike(){
+
+            this.setState(({like}) =>{
+                return {
+                    like: !like
+                }
+            })
+        }
   
-  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    // constructor(props){
-    //     super(props);
-    //     this.state = {
-    //         important:false
-    //     };
-
-    //     this.onImportant = this.onImportant.bind(this);
-    // }
-
-   
-
-
-    // onImportant() {
-    //     this.setState(({important}) =>{
-    //        return {
-    //            important: !important
-    //        }
-    //     })
-    // }
      
 
     render() {
                const {label} = this.props;
 
-               const {important} = this.state;
+               const {important,like} = this.state;
 
                  
         let classNames = 'app-list-item d-flex justify-content-between';
              if (important) {
                  classNames +=' important';
              }
+
+             if (like) {
+                classNames +=' like';
+            }
         
         return (
             <div className = {classNames}>
              
-                          <span className = 'app-list-item-label'>
+                          <span className = 'app-list-item-label' 
+                           onClick={this.onLike}
+                          >
                               {label}
-            
-            
+                             
                           </span>
             
                           <div className = 'd-flex justify-content-center align-items-center'>
