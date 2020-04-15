@@ -25,53 +25,120 @@ const AppBlock = styled.div`
 
 
 
-const App = ()=> {
-   
-     const data = [
-            {label : 'go learn react', imortant:false, id: 'qwe'},
-            {label : 'that is so good', imortant:false, id: 'qww'},
-            {label : 'good work', imortant:false, id: 'qrt'}
+export default class App extends Component {
+   constructor(props) {
+          super(props);
+          this.state = {
 
-     ];
+              data : [
+                     {label : 'go learn react', imortant:true, like:false, id: 1},
+                     {label : 'that is so good', imortant:false,like:false, id: 2},
+                     {label : 'good work', imortant:false,like:false, id: 3}
+         
+              ]
+          };
+
+          this.deleteItem = this.deleteItem.bind(this);
+          this.addItem = this.addItem.bind(this);
+          this.onToggleImportant = this.onToggleImportant.bind(this);
+          this.onToggleLiked = this.onToggleLiked.bind(this);
+
+
+          this.maxId = 4;
+   }
+          
    
-       return ( 
+   deleteItem(id) {
+          this.setState(({data}) =>{
+              const index = data.findIndex(elem=> elem.id === id);  
+
+              ;
+              const newArr = [...data.slice(0, index), ...data.slice(index +1)];
+
+              return {
+                     data: newArr
+              }
+
+          });
+   }
+
+
+   addItem(body) {
+
+          const newItem  = {
+                 label: body,
+                 imortant: false,
+                 id: this.maxId++
+          }
+
+          this.setState(({data}) =>{
+               
+              const newArr = [...data, newItem];
+              return{
+                     data:newArr
+              }
+          });
+   }
+
+   onToggleImportant(id) {
+          console.log(`toggle : ${id}`);
+
+   }
+
+   onToggleLiked(id) {
+       this.setState(({data}) => {
+              const index = data.findIndex(elem => elem.id === id);
+              const old = data[index];
+              const newItem = {...old, like: !old.like};
+
+              const newArr =  [...data.slice(0, index), newItem,  ...data.slice(index +1)];
+
+              return {
+                     data: newArr
+              }
+       });
+
+  }
+
+       render() {
+
+       const {data} = this.state;
+        const liked = data.filter(item => item.like).length;
+        const allPosts = data.length;        
+
+
+              return ( 
     
-      <AppBlock>   
-           <AppHeader />
+                     <AppBlock>   
+                          <AppHeader 
+                          liked = {liked}
+                          allPosts = {allPosts}
+                          />
+               
+                   <div className = 'search-panel d-flex'>
+                          <SearchPanel />
+                          <PostStatusFilter />
+                   </div>         
+                           <PostList posts={this.state.data} 
+                            onDelete={this.deleteItem}
+                            onToggleImportant = {this.onToggleImportant}
+                            onToggleLiked = {this.onToggleLiked} 
+                           />
+                           <PostAddForm 
+                            onAdd = {this.addItem}
 
-    <div className = 'search-panel d-flex'>
-           <SearchPanel />
-           <PostStatusFilter />
-    </div>         
-            <PostList posts={data} />
-            <PostAddForm />
-
-      </AppBlock>
-
+                           />
+               
+                     </AppBlock>
+               
+                  
+                  
+                            
+                   )
+       }
    
-   
-             
-    )
+      
 }
 
-export default App;
-
-// export default class App extends Component {
-//     render() {
 
 
-
-//         return (
-//             <div className = 'app'>
-//            <AppHeader />
-//             <PostList />
-
-//      <div className = 'search-panel d-flex'>
-//             <SearchPanel />
-//             <PostStatusFilter />
-//      </div>
-
-//      </div>
-//         )
-//     }
-// }
